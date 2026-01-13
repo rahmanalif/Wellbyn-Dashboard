@@ -40,6 +40,7 @@ export const API_ENDPOINTS = {
 /**
  * Utility function to construct full image URL
  * Combines the base URL with the relative path from the backend
+ * Uses a proxy route to avoid CORS issues in development
  *
  * @param relativePath - The relative path from backend (e.g., "uploads//1762811169222-download%20(1).jpg")
  * @returns Full URL (e.g., "https://wellbyn.grassroots-bd.com/uploads//1762811169222-download%20(1).jpg")
@@ -47,14 +48,22 @@ export const API_ENDPOINTS = {
 export const getImageUrl = (relativePath: string | undefined | null): string | undefined => {
   if (!relativePath) return undefined;
 
-  // If it's already a full URL (starts with http:// or https://), return as is
+  let fullImageUrl: string;
+
+  // If it's already a full URL (starts with http:// or https://), use it as is
   if (relativePath.startsWith('http://') || relativePath.startsWith('https://')) {
-    return relativePath;
+    fullImageUrl = relativePath;
+  } else {
+    // Remove leading slash if present to avoid double slashes
+    const cleanPath = relativePath.startsWith('/') ? relativePath.slice(1) : relativePath;
+    // Combine base URL with the relative path
+    fullImageUrl = `${BASE_URL}/${cleanPath}`;
   }
 
-  // Remove leading slash if present to avoid double slashes
-  const cleanPath = relativePath.startsWith('/') ? relativePath.slice(1) : relativePath;
+  // In development (localhost), proxy the image through Next.js API route to avoid CORS issues
+  if (fullImageUrl.includes('localhost:1357') || fullImageUrl.includes('127.0.0.1:1357')) {
+    return `/api/proxy-image?url=${encodeURIComponent(fullImageUrl)}`;
+  }
 
-  // Combine base URL with the relative path
-  return `${BASE_URL}/${cleanPath}`;
+  return fullImageUrl;
 };

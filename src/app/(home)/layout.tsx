@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { Sidebar } from "@/components/layout/Sidebar";
 import Link from "next/link";
+import SmartBackButton from "@/components/navigation/SmartBackButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,16 +39,7 @@ export default function DashboardLayout({
           <header className="  px-6 py-4">
             <div className="flex items-center justify-between">
               {/* Back Button */}
-              <Link href="/dashboard">
-               <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors hidden md:block">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M4 6V18" stroke="#3D3D3D" strokeWidth="1.5" strokeLinecap="round"/>
-<path d="M8 12.0005H20" stroke="#3D3D3D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-<path d="M12 8C12 8 8.00001 10.946 8 12C7.99999 13.0541 12 16 12 16" stroke="#3D3D3D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-</svg>
-
-              </button>
-              </Link>
+              <SmartBackButton className="hidden md:block" />
              
 
               <div className="flex items-center justify-between w-[560px]">

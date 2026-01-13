@@ -38,7 +38,7 @@ export const DoctorActions = ({ doctorId }: DoctorActionsProps) => (
 
     {/* Edit Button */}
     <Link
-      href={`/doctor/${doctorId}/edit`}
+      href={`/doctor/edit/${doctorId}`}
       className="p-2 rounded-md text-blue-600 hover:bg-blue-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
       aria-label="Edit"
     >

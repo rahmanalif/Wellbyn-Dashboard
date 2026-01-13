@@ -10,7 +10,7 @@ import { RootState } from '../store';
 export interface ApiPatient {
   patientId: string;
   patientName: string;
-  contact: string[];
+  contact: string[] | string | { email?: string; phone?: string; mobile?: string };
   gender: string;
   lastVisit: string;
   statusCare: string;

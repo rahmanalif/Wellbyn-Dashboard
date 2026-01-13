@@ -9,8 +9,20 @@ const nextConfig: NextConfig = {
         permanent: false, // false → 307 redirect; true → 308 (cached by browsers/clients)
       },
     ];
-  },images: {
-    domains: ['randomuser.me'],
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '1357',
+        pathname: '/uploads/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'randomuser.me',
+      },
+    ],
   },
 };
 

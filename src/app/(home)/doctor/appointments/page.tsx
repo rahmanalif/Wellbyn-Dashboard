@@ -292,6 +292,10 @@ export default function DoctorDashboard() {
                         src={getImageUrl(doctorData.profilePicture) || "/placeholder.svg"}
                         alt={doctorData.doctorName}
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          console.error('Failed to load doctor image:', getImageUrl(doctorData.profilePicture));
+                          e.currentTarget.src = "/placeholder.svg";
+                        }}
                       />
                     </div>
                     <div className="flex flex-col md:flex-row items-center md:items-start gap-6">

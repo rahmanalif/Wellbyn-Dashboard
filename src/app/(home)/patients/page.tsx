@@ -78,11 +78,31 @@ export default function PatientsDashboard() {
    * Convert API patients data to the format expected by PatientsTable component
    */
   const patients: Patient[] = (data?.data || []).map((patient: ApiPatient) => {
-    // Extract email and phone from contact array
-    // Handle case where contact might not be an array
-    const contactArray = Array.isArray(patient.contact) ? patient.contact : [];
-    const email = contactArray.find((c) => c.includes("@")) || "";
-    const phone = contactArray.find((c) => !c.includes("@")) || "";
+    console.log('Patient contact:', patient.patientName, patient.contact, typeof patient.contact);
+
+    // Extract email and phone from contact
+    // Handle different contact formats: array, string, or object
+    let email = "";
+    let phone = "";
+
+    if (Array.isArray(patient.contact)) {
+      // Contact is an array (e.g., ["email@example.com", "1234567890"])
+      email = patient.contact.find((c) => c.includes("@")) || "";
+      phone = patient.contact.find((c) => !c.includes("@")) || "";
+    } else if (typeof patient.contact === "string") {
+      // Contact is a string - could be email, phone, or other identifier
+      if (patient.contact.includes("@")) {
+        email = patient.contact;
+      } else {
+        phone = patient.contact;
+      }
+    } else if (typeof patient.contact === "object" && patient.contact !== null) {
+      // Contact is an object (e.g., {email: "...", phone: "..."})
+      email = (patient.contact as any).email || "";
+      phone = (patient.contact as any).phone || (patient.contact as any).mobile || "";
+    }
+
+    console.log('Extracted contact:', { email, phone });
 
     // Get initial from patient name
     const initial = patient.patientName.charAt(0).toUpperCase();
